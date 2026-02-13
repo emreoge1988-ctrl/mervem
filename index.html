@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>❤️ Aşkımız ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    text-align: center;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* UÇUŞAN KALPLER */
+.hearts {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.heart-float {
+    position: absolute;
+    bottom: -50px;
+    animation: floatUp linear infinite;
+    color: rgba(255,255,255,0.8);
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-110vh) scale(1.5); opacity: 0; }
+}
+
+/* ANA TASARIM */
+.container {
+    padding: 30px 15px;
+}
+
+h1 {
+    font-size: 35px;
+}
+
+.time-box {
+    font-size: 22px;
+    margin: 20px 0;
+    line-height: 1.8;
+}
+
+/* FOTOĞRAF GALERİ */
+.gallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.gallery img {
+    width: 250px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.7);
+    transition: 0.3s;
+}
+
+.gallery img:hover {
+    transform: scale(1.05);
+}
+
+textarea {
+    width: 80%;
+    max-width: 400px;
+    height: 100px;
+    border-radius: 15px;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #ff4e50;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ff1e2d;
+}
+
+.messages {
+    margin-top: 20px;
+}
+
+.heart-icon {
+    font-size: 45px;
+    animation: beat 1s infinite;
+}
+
+@keyframes beat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* MÜZİK BUTONU */
+#musicBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(45deg, #ff4e50, #ff9a9e);
+    color: white;
+    font-size: 26px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255,255,255,0.7);
+    z-index: 999;
+    transition: 0.3s;
+}
+
+#musicBtn:hover {
+    transform: scale(1.1);
+}
+</style>
+</head>
+
+<body>
+
+<div class="hearts" id="hearts"></div>
+
+<div class="container">
+    <div class="heart-icon">❤️</div>
+    <h1>Birlikte Geçen Süremiz 💕</h1>
+
+    <div class="time-box" id="timePassed"></div>
+
+    <h2>📸 Anılarımız</h2>
+    <div class="gallery">
+        <img src="foto1.jpeg" alt="">
+        <img src="foto2.jpeg" alt="">
+        <img src="foto4.jpeg" alt="">
+        <img src="foto5.jpeg" alt="">
+        <img src="foto6.jpeg" alt="">
+        <img src="foto7.jpeg" alt="">
+    </div>
+
+    <h2>💌 Sana Mesajım</h2>
+    <h2>DENEME</h2>
+    
+
+    <h2>📱 QR Kod</h2>
+    <img id="qrCode" src="" alt="QR Kod">
+</div>
+
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button id="musicBtn" onclick="toggleMusic()">🎵</button>
+
+<script>
+
+/* CANLI SAYAÇ */
+function updateTime() {
+    const startDate = new Date("2014-08-07T00:00:00");
+    const now = new Date();
+    const diff = now - startDate;
+
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff / (1000*60*60)) % 24);
+    const minutes = Math.floor((diff / (1000*60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("timePassed").innerHTML =
+        "07.08.2014 tarihinden bugüne kadar 💖<br><br>" +
+        "<b>" + days + "</b> Gün ❤️<br>" +
+        "<b>" + hours + "</b> Saat 💕<br>" +
+        "<b>" + minutes + "</b> Dakika 💗<br>" +
+        "<b>" + seconds + "</b> Saniye 💘";
+}
+
+setInterval(updateTime, 1000);
+updateTime();
+
+/* UÇUŞAN KALPLER */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart-float");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+    heart.style.animationDuration = (Math.random() * 5 + 5) + "s";
+    document.getElementById("hearts").appendChild(heart);
+    setTimeout(() => heart.remove(), 10000);
+}
+setInterval(createHeart, 300);
+
+/* MESAJ */
+function addMessage() {
+    const input = document.getElementById("messageInput");
+    if (input.value.trim() !== "") {
+        const p = document.createElement("p");
+        p.innerHTML = "💖 " + input.value;
+        document.getElementById("messages").appendChild(p);
+        input.value = "";
+    }
+}
+
+/* QR */
+const siteURL = "https://siteadresin.com";
+document.getElementById("qrCode").src =
+"https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + siteURL;
+
+/* MÜZİK */
+function toggleMusic() {
+    const music = document.getElementById("bgMusic");
+    const btn = document.getElementById("musicBtn");
+    if (music.paused) {
+        music.play();
+        btn.innerHTML = "⏸️";
+    } else {
+        music.pause();
+        btn.innerHTML = "🎵";
+    }
+}
+
+</script>
+
+</body>
+</html>
